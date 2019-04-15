@@ -29,7 +29,18 @@ class App extends Component {
     const recettes = { ...this.state.recettes }
     recettes[`recette-${Date.now()}`] = recette
     this.setState({ recettes })
+  }
 
+  majRecette = (key, newRecette) => {
+    const recettes = { ...this.state.recettes }
+    recettes[key] = newRecette
+    this.setState({ recettes })
+  }
+
+  supprimerRecette = key => {
+    const recettes = { ...this.state.recettes}
+    recettes[key] = null
+    this.setState({ recettes })
   }
   
   chargerExemple = () =>this.setState({recettes});
@@ -37,7 +48,6 @@ class App extends Component {
   render () {
     const cards = Object.keys(this.state.recettes)
         .map(key => <Card key={key} details={this.state.recettes[key]} />)
-    console.log(cards)
     return (
       <div className='box'>
         <Header pseudo={this.state.pseudo}/>
@@ -45,8 +55,12 @@ class App extends Component {
           {cards}
         </div>
         <Admin 
-        chargerExemple = {this.chargerExemple} 
-        ajouterRecette = {this.ajouterRecette}  
+        chargerExemple = { this.chargerExemple } 
+        ajouterRecette = { this.ajouterRecette }  
+        majRecette = { this.majRecette } 
+        recettes = { this.state.recettes }
+        supprimerRecette = { this.supprimerRecette }
+        pseudo = { this.state.pseudo }
         />
       </div>
     )
