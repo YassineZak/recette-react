@@ -12,9 +12,17 @@ export default class Admin extends Component {
     chef: null
   }
 
+  componentDidMount() {
+    firebase.ath().onAuthStateChanged(user =>{
+      if (user){
+        this.handleAuth({ user })
+      }
+    })
+  }
+  
+
   handleAuth = async authData => {
     const box = await base.fetch(this.props.pseudo, { context: this })
-    console.log(box);
     
     if(!box.chef){
       await base.post(`${this.props.pseudo}/chef`, {
@@ -32,8 +40,17 @@ export default class Admin extends Component {
     const authProvider = new firebase.auth.FacebookAuthProvider()
     firebaseApp.auth().signInWithPopup(authProvider).then(this.handleAuth)
   }
+
+  logout = async () => {
+    console.log('Déconnexion')
+    await firebase.auth().signOut()
+    this.setState({ uid: null })
+
+  }
   render() {
     const {ajouterRecette, recettes, chargerExemple, majRecette, supprimerRecette } = this.props
+
+    const logout = <button onClick={ this.logout }>Déconnexion</button>
 
     //si l'utilisateur n'est pas connecté 
     if (!this.state.uid) {
@@ -43,6 +60,7 @@ export default class Admin extends Component {
       return (
         <div>
           <p>Tu n'es pas le chef de cette boîte !</p>
+          {logout}
         </div>
       )
     }
@@ -56,11 +74,10 @@ export default class Admin extends Component {
           supprimerRecette={supprimerRecette}
           recettes={recettes}
           key={key}
-          id={key}>
-
-          </AdminForm>)
+          id={key}/>)
         }
         <footer>
+          {logout}
           <button onClick={ chargerExemple }>Remplir</button>
         </footer>
       </div>
