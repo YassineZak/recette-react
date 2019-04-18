@@ -13,7 +13,7 @@ export default class Admin extends Component {
   }
 
   componentDidMount() {
-    firebase.ath().onAuthStateChanged(user =>{
+    firebase.auth().onAuthStateChanged(user =>{
       if (user){
         this.handleAuth({ user })
       }
