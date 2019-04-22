@@ -4,30 +4,57 @@ import './App.css'
 import Header from './components/Header'
 import Admin from './components/Admin'
 import Card from './components/Card'
+import  ColorContext  from './components/Color'
 
+// PropTypes
+import PropTypes from 'prop-types'
+
+//Firebase
 import withFirebase from './hoc/withFirebase'
 
-const App = (props) => {
 
-    const cards = Object.keys(props.recettes)
-        .map(key => <Card key={key} details={props.recettes[key]} />)
+const App = ({
+  recettes, 
+  match,
+  ajouterRecette,
+  majRecette,
+  supprimerRecette,
+  chargerExemple,
+  handleChangeComplete 
+
+}) => {
+
+    const cards = Object.keys(recettes)
+        .map(key => <Card key={key} details={recettes[key]} />)
     return (
-      <div className='box'>
-        <Header pseudo={props.match.params.pseudo}/>
-        <div className='cards'>
-          {cards}
+      <ColorContext>         
+        <div className='box'>
+          <Header pseudo={match.params.pseudo}
+          color = { handleChangeComplete }
+          />
+          <div className='cards'>
+            {cards}
+          </div>
+          <Admin 
+          chargerExemple = { chargerExemple } 
+          ajouterRecette = { ajouterRecette }  
+          majRecette = { majRecette } 
+          recettes = { recettes }
+          supprimerRecette = { supprimerRecette }
+          pseudo = { match.params.pseudo }
+          />
         </div>
-        <Admin 
-        chargerExemple = { props.chargerExemple } 
-        ajouterRecette = { props.ajouterRecette }  
-        majRecette = { props.majRecette } 
-        recettes = { props.recettes }
-        supprimerRecette = { props.supprimerRecette }
-        pseudo = { props.match.params.pseudo }
-        />
-      </div>
+      </ColorContext>
     )
   }
+      App.prototype = {
+        chargerExemple: PropTypes.func.isRequired,
+        ajouterRecette: PropTypes.func.isRequired,
+        majRecette: PropTypes.func.isRequired,
+        recettes: PropTypes.string.isRequired,
+        supprimerRecette: PropTypes.func.isRequired,
+        pseudo: PropTypes.string.isRequired
+      }
 
 const WrappedComponent = withFirebase(App)
 export default WrappedComponent
