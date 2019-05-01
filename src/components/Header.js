@@ -1,17 +1,17 @@
 import React, { Component }from "react";
-import { ColorContext } from "./Color";
 import { SketchPicker } from 'react-color';
 
 export default class Header extends Component {
 
 
     state = {
-        showPalette: true,
-        background: '#fff'
+        showPalette: false,
+        color: 'seagreen'
     }
 
     handleChangeComplete = color => {
         this.setState({ color: color.hex })
+        this.props.handleColor({color: color.hex})
        }
 
     formatPseudo = pseudo =>
@@ -24,6 +24,7 @@ export default class Header extends Component {
         else{
             this.setState({showPalette : true})
         }
+        console.log(this.props)
     }
 
   
@@ -31,18 +32,15 @@ export default class Header extends Component {
   render() {
 
         return (
-            <ColorContext.Consumer color={this.state.background} showPalette={this.state.showPalette}>
-            {context => (
-                context.state.showPalette = this.state.showPalette,
-                context.state.color = this.state.color,
-                <header style={{ backgroundColor: context.state.color }} onClick = {() => this.handleClick()}>
-                {context.state.showPalette ? <SketchPicker color={ this.state.background }
+            
+                <header style={{ backgroundColor: this.state.color }} >
+                
+                {this.state.showPalette ? <SketchPicker color={ this.state.background }
                 onChange={ this.handleChangeComplete } /> : null }
                 <h1>La boîte à recettes {this.formatPseudo(this.props.pseudo)}</h1>
+                <button style= {{background: this.state.color}}><i class="fas fa-wrench" style= {{float: "right"}} onClick = {() => this.handleClick()}></i></button>
                 </header>
-            )}
-            </ColorContext.Consumer>
-        );
+            )
     }
 };
 

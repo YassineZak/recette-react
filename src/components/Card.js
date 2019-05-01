@@ -1,7 +1,6 @@
 import React from 'react';
-import { ColorContext } from './Color';
 
-const Card = ({details}) => {
+const Card = ({details, color}) => {
 
     const ingredients = details.ingredients.split(',')
                         .map(item => <li key={item}>{item}</li>)
@@ -15,19 +14,29 @@ const Card = ({details}) => {
         } catch (error) {
             return require(`../img/default.jpeg`)
         }
+    }
+    const background = color => {
+        if( color == null){
+            color = "seagreen"
+            return color
+        }
+        else{
+            return color
+        }
     }                    
     
 
     return (
-        <ColorContext.Consumer>
-        { context => (
             <div className="card">
+             {
+                 console.log(color)
+             }
             <div className="image">
             <img src={requireImage(details.image)} alt={details.nom}/>
             </div>
                 <div className="recette">
                     <h2>{details.nom}</h2>
-                    <ul className="liste-ingredients" style={{backgroundColor: context.state.color}}>
+                    <ul className="liste-ingredients" style={{backgroundColor: background(color.color)}}>
                         {ingredients}
                     </ul>
                     <ol className="liste-instructions">
@@ -35,8 +44,6 @@ const Card = ({details}) => {
                     </ol>
                 </div>
             </div>
-        )}
-        </ColorContext.Consumer>
     );
 };
 
