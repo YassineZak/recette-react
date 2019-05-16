@@ -17,7 +17,7 @@ const Card = ({details, color}) => {
     }
     const background = color => {
         if( color == null){
-            color = "seagreen"
+            color = "red"
             return color
         }
         else{
@@ -28,9 +28,6 @@ const Card = ({details, color}) => {
 
     return (
             <div className="card">
-             {
-                 console.log(color)
-             }
             <div className="image">
             <img src={requireImage(details.image)} alt={details.nom}/>
             </div>
