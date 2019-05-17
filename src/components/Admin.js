@@ -66,7 +66,7 @@ export default class Admin extends Component {
     }
 
     return (
-      <div className="card">
+      <div className="cards">
         <AjouterRecette  ajouterRecette = { ajouterRecette }/>
         {
           Object.keys(recettes).map(key => <AdminForm
@@ -74,7 +74,9 @@ export default class Admin extends Component {
           supprimerRecette={supprimerRecette}
           recettes={recettes}
           key={key}
-          id={key}/>)
+          id={key}
+          color={ this.props.color}
+          />)
         }
         <footer>
           {logout}

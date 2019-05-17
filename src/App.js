@@ -74,6 +74,7 @@ class App extends Component {
           recettes={this.state.recettes}
           supprimerRecette={this.supprimerRecette}
           pseudo={this.state.pseudo}
+          color={ this.state.color}
         />
       </div>
     );
